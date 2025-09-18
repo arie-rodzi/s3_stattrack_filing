@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from passlib.hash import bcrypt
+import bcrypt
 from hashlib import sha256
 from supabase import create_client
 
