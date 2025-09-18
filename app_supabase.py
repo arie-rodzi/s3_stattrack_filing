@@ -17,13 +17,14 @@ def sha256_bytes(b: bytes) -> str:
     h = sha256(); h.update(b); return h.hexdigest()
 
 def hash_pw(p: str) -> str:
-    return bcrypt.hash(p + SITE_SALT)
+    return bcrypt.hashpw((p + SITE_SALT).encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
 def verify_pw(p: str, hashed: str) -> bool:
     try:
-        return bcrypt.verify(p + SITE_SALT, hashed)
+        return bcrypt.checkpw((p + SITE_SALT).encode('utf-8'), hashed.encode('utf-8'))
     except Exception:
         return False
+
 
 def table_empty(table_name: str) -> bool:
     r = sb.table(table_name).select("id", count="exact").limit(1).execute()
